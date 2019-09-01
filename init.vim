@@ -9,7 +9,6 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
     Plug 'easymotion/vim-easymotion'
-    Plug 'gabesoft/vim-ags'
     Plug 'dyng/ctrlsf.vim'
     Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
     Plug 'brooth/far.vim'
@@ -219,20 +218,6 @@ let g:ale_linters = {
 
 " Turn on case insensitive feature
 let g:EasyMotion_smartcase = 1
-
-let g:ags_agexe = 'rg'
-let g:ags_results_per_tab = 1
-let g:ags_agargs = {
-  \ '--column'         : ['', ''],
-  \ '--line-number'    : ['', ''],
-  \ '--context'        : ['g:ags_agcontext', '-C'],
-  \ '--max-count'      : ['g:ags_agmaxcount', ''],
-  \ '--heading'        : ['',''],
-  \ '--smart-case'     : ['','-S'],
-  \ '--color'          : ['always',''],
-  \ '--colors'         : [['match:fg:green', 'match:bg:black', 'match:style:nobold', 'path:fg:red', 'path:style:bold', 'line:fg:black', 'line:style:bold'] ,''],
-  \ }
-
 
 let g:ctrlsf_auto_close = {
     \ "normal" : 0,
