@@ -28,7 +28,6 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'jelera/vim-javascript-syntax'
     Plug 'crusoexia/vim-javascript-lib'
     Plug 'othree/html5.vim'
-    Plug 'mxw/vim-jsx'
     Plug 'othree/yajs.vim'
     Plug 'othree/es.next.syntax.vim'
 
@@ -36,8 +35,8 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'tell-k/vim-autopep8'
 
     " Syntax support
+    Plug 'ayu-theme/ayu-vim'
     Plug 'sheerun/vim-polyglot'
-    Plug 'Valloric/MatchTagAlways'
     Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
     Plug 'Yggdroot/indentLine'
 
@@ -58,6 +57,9 @@ augroup vimrc_autocmd
 
     noremap <silent> <F1> :let @+=expand("%")<CR>
 
+    " autocmd VimEnter * nmap <F1> :terminal<CR>
+    " autocmd VimEnter * imap <F1> <Esc>:terminal<CR>
+
     autocmd VimEnter * nmap <F2> :tabnew<CR>
     autocmd VimEnter * imap <F2> <Esc>:tabnew<CR>
 
@@ -73,8 +75,20 @@ augroup vimrc_autocmd
     autocmd VimEnter * nmap <F8> :q!<CR>
     autocmd VimEnter * imap <F8> <Esc>:q!<CR>
 
-    autocmd VimEnter * nmap <F9> :%retab<CR>:%s/\s\+$//e<CR>
-    autocmd VimEnter * imap <F9> <Esc>:%retab<CR>:%s/\s\+$//e<CR>
+    autocmd VimEnter * nmap <F9> :q!<CR>
+    autocmd VimEnter * imap <F9> <Esc>:q!<CR>
+
+    autocmd VimEnter * nmap <F10> :q!<CR>
+    autocmd VimEnter * imap <F10> <Esc>:q!<CR>
+
+    autocmd VimEnter * nmap <F11> :q!<CR>
+    autocmd VimEnter * imap <F11> <Esc>:q!<CR>
+
+    autocmd VimEnter * nmap <F12> :q!<CR>
+    autocmd VimEnter * imap <F12> <Esc>:q!<CR>
+
+"    autocmd VimEnter * nmap <F9> :%retab<CR>:%s/\s\+$//e<CR>
+"    autocmd VimEnter * imap <F9> <Esc>:%retab<CR>:%s/\s\+$//e<CR>
 
     autocmd VimEnter * nmap <Leader>j :ALENext<cr>
     autocmd VimEnter * nmap <Leader>k :ALEPrevious<cr>
@@ -125,6 +139,8 @@ noremap <D-8> 8gt
 noremap <leader>9 :tablast<cr>
 noremap <D-9> :tablast<cr>
 
+tnoremap <Esc> <C-\><C-n>
+
 nnoremap <C-p> :FZF<CR>
 nnoremap <C-l> :Buffers<CR>
 nnoremap <C-k> :Tags<CR>
@@ -153,13 +169,18 @@ let NERDTreeMapActivateNode="<space>"
 let NERDTreeMapOpenInTab="<ENTER>"
 let NERDTreeIgnore=['^\.DS_Store$', '^__pycache__$', '^\.cache$', '\.pyc$']
 
+" set background=dark
+colorscheme ayu
+let ayucolor="dark"
+
 " set nocursorline
+" set regexpengine=1
+" set synmaxcol=166
 set termguicolors
 set lazyredraw
-set regexpengine=1
 set scrolljump=2
-" set synmaxcol=166
 set colorcolumn=120
+set diffopt+=vertical
 
 set mouse=a
 set nonumber
@@ -178,6 +199,8 @@ set expandtab
 set foldmethod=indent
 set foldlevel=19
 set completeopt-=preview
+set autoindent
+set cindent
 
 set encoding=UTF-8
 
@@ -198,18 +221,14 @@ let g:prettier#config#tab_width = 4
 let g:prettier#exec_cmd_async = 1
 let g:prettier#config#trailing_comma = 'none'
 
-let g:mta_filetypes = {
-    \ 'javascript.jsx': 1,
-    \ 'html' : 1,
-    \ 'xhtml' : 1,
-    \ 'xml' : 1,
-    \ 'jinja' : 1,
-\}
-
 let g:javascript_plugin_flow = 1
 
 let g:ale_sign_error = '>'
+highlight ALEErrorSign guifg=#F90000 guibg=#000000
+
 let g:ale_sign_warning = '.'
+highlight ALEWarningSign guifg=#fabd2f guibg=#000000
+
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_linters = {
     \   'javascript': ['eslint', 'flow'],
@@ -228,8 +247,9 @@ let g:ctrlsf_auto_focus = {
     \ }
 
 highlight link javascriptReserved Keyword
-highlight ALEErrorSign guifg=#F90000 guibg=#000000
-highlight ALEWarningSign guifg=#fabd2f guibg=#000000
+highlight NERDTreeDir guifg=#96CBFE guibg=NONE
+highlight NERDTreeFile guifg=#E0DAC3 guibg=NONE
 highlight clear SignColumn
-
 highlight Search guibg=peru guifg=white
+highlight DiffAdd gui=NONE guifg=white guibg=green
+highlight DiffChange gui=NONE guifg=blue guibg=white
