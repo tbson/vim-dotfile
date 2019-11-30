@@ -1,9 +1,10 @@
 call plug#begin('~/.config/nvim/plugged')
     " Autocomplete
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
+    " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    " Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
     Plug 'Shougo/neosnippet'
     Plug 'Shougo/neosnippet-snippets'
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
     " Navigating
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -15,7 +16,7 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'mkitt/tabline.vim'
 
     " Language support
-    Plug 'w0rp/ale'
+    " Plug 'w0rp/ale'
     Plug 'rizzatti/dash.vim'
 
     " Elixir
@@ -44,10 +45,10 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'tpope/vim-fugitive'
 call plug#end()
 
-call deoplete#custom#var('tabnine', {
-\ 'line_limit': 500,
-\ 'max_num_results': 5,
-\ })
+" call deoplete#custom#var('tabnine', {
+" \ 'line_limit': 500,
+" \ 'max_num_results': 5,
+" \ })
 
 let mapleader = ","
 augroup vimrc_autocmd
@@ -90,8 +91,8 @@ augroup vimrc_autocmd
 "    autocmd VimEnter * nmap <F9> :%retab<CR>:%s/\s\+$//e<CR>
 "    autocmd VimEnter * imap <F9> <Esc>:%retab<CR>:%s/\s\+$//e<CR>
 
-    autocmd VimEnter * nmap <Leader>j :ALENext<cr>
-    autocmd VimEnter * nmap <Leader>k :ALEPrevious<cr>
+    autocmd VimEnter * nmap <Leader>j <Plug>(coc-diagnostic-next)
+    autocmd VimEnter * nmap <Leader>k <Plug>(coc-diagnostic-prev)
 
     autocmd VimEnter * nmap <S-U> <C-R>
 
@@ -106,6 +107,7 @@ augroup vimrc_autocmd
     autocmd FileType python set sts=4
 
     autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+    autocmd FileType json syntax match Comment +\/\/.\+$+
 augroup END
 
 " Always use 0 register to paste, not shit from deleting
@@ -170,13 +172,33 @@ let NERDTreeMapOpenInTab="<ENTER>"
 let NERDTreeIgnore=['^\.DS_Store$', '^__pycache__$', '^\.cache$', '\.pyc$']
 
 " set background=dark
-colorscheme ayu
+set termguicolors
 let ayucolor="dark"
+colorscheme ayu
+
+
+" if hidden is not set, TextEdit might fail.
+set hidden
+
+" Some servers have issues with backup files, see #649
+set nobackup
+set nowritebackup
+
+" Better display for messages
+set cmdheight=2
+
+" You will have bad experience for diagnostic messages when it's default 4000.
+set updatetime=300
+
+" don't give |ins-completion-menu| messages.
+set shortmess+=c
+
+" always show signcolumns
+" set signcolumn=yes
 
 " set nocursorline
 " set regexpengine=1
 " set synmaxcol=166
-set termguicolors
 set lazyredraw
 set scrolljump=2
 set colorcolumn=120
@@ -212,8 +234,8 @@ let g:autopep8_on_save = 1
 let g:autopep8_max_line_length=120
 
 " Use deoplete
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#tag#cache_limit_size = 40000000
+" let g:deoplete#enable_at_startup = 1
+" let g:deoplete#tag#cache_limit_size = 40000000
 
 " prettier
 let g:prettier#config#print_width = 120
@@ -223,17 +245,17 @@ let g:prettier#config#trailing_comma = 'none'
 
 let g:javascript_plugin_flow = 1
 
-let g:ale_sign_error = '>'
-highlight ALEErrorSign guifg=#F90000 guibg=#000000
+" let g:ale_sign_error = '>'
+" highlight ALEErrorSign guifg=#F90000 guibg=#000000
 
-let g:ale_sign_warning = '.'
-highlight ALEWarningSign guifg=#fabd2f guibg=#000000
+" let g:ale_sign_warning = '.'
+" highlight ALEWarningSign guifg=#fabd2f guibg=#000000
 
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_linters = {
-    \   'javascript': ['eslint', 'flow'],
-    \   'python': ['flake8'],
-\}
+" let g:ale_lint_on_text_changed = 'never'
+" let g:ale_linters = {
+"    \   'javascript': ['eslint', 'flow'],
+"    \   'python': ['flake8'],
+" \}
 
 " Turn on case insensitive feature
 let g:EasyMotion_smartcase = 1
@@ -245,6 +267,10 @@ let g:ctrlsf_auto_close = {
 let g:ctrlsf_auto_focus = {
     \ "at": "start"
     \ }
+
+hi TabLine      guifg=Gray  guibg=#0F1419     gui=NONE
+hi TabLineFill  guifg=Gray  guibg=#0F1419     gui=NONE
+hi TabLineSel   guifg=White  guibg=#0F1419  gui=NONE
 
 highlight link javascriptReserved Keyword
 highlight NERDTreeDir guifg=#96CBFE guibg=NONE
