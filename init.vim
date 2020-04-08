@@ -1,9 +1,5 @@
 call plug#begin('~/.config/nvim/plugged')
     " Autocomplete
-    " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    " Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
-    Plug 'Shougo/neosnippet'
-    Plug 'Shougo/neosnippet-snippets'
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
     " Navigating
@@ -15,49 +11,38 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'brooth/far.vim'
     Plug 'mkitt/tabline.vim'
 
-    " Language support
-    " Plug 'w0rp/ale'
-    Plug 'rizzatti/dash.vim'
-
     " Elixir
-    Plug 'elixir-editors/vim-elixir'
-    Plug 'slashmili/alchemist.vim'
     Plug 'mhinz/vim-mix-format'
 
     " JS
-    Plug 'pangloss/vim-javascript'
-    Plug 'jelera/vim-javascript-syntax'
-    Plug 'crusoexia/vim-javascript-lib'
-    Plug 'othree/html5.vim'
-    Plug 'othree/yajs.vim'
     Plug 'othree/es.next.syntax.vim'
+    Plug 'HerringtonDarkholme/yats.vim'
 
     " Python
     Plug 'tell-k/vim-autopep8'
+    Plug 'tweekmonster/django-plus.vim'
 
     " Syntax support
-    Plug 'ayu-theme/ayu-vim'
+    Plug 'tbson/ayu-vim'
     Plug 'sheerun/vim-polyglot'
     Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
     Plug 'Yggdroot/indentLine'
+    Plug 'pechorin/any-jump.vim'
 
     " Git
     Plug 'tpope/vim-fugitive'
 call plug#end()
 
-" call deoplete#custom#var('tabnine', {
-" \ 'line_limit': 500,
-" \ 'max_num_results': 5,
-" \ })
-
 let mapleader = ","
 augroup vimrc_autocmd
     autocmd!
 
+    " Highlight symbol under cursor on CursorHold
+    autocmd CursorHold * silent call CocActionAsync('highlight')
+
     autocmd VimEnter * nmap <Leader>w <C-w>w
 
     noremap <silent> <F1> :let @+=expand("%")<CR>
-
     " autocmd VimEnter * nmap <F1> :terminal<CR>
     " autocmd VimEnter * imap <F1> <Esc>:terminal<CR>
 
@@ -88,11 +73,9 @@ augroup vimrc_autocmd
     autocmd VimEnter * nmap <F12> :q!<CR>
     autocmd VimEnter * imap <F12> <Esc>:q!<CR>
 
-"    autocmd VimEnter * nmap <F9> :%retab<CR>:%s/\s\+$//e<CR>
-"    autocmd VimEnter * imap <F9> <Esc>:%retab<CR>:%s/\s\+$//e<CR>
-
     autocmd VimEnter * nmap <Leader>j <Plug>(coc-diagnostic-next)
     autocmd VimEnter * nmap <Leader>k <Plug>(coc-diagnostic-prev)
+    autocmd VimEnter * nmap <Leader>r :edit<CR>
 
     autocmd VimEnter * nmap <S-U> <C-R>
 
@@ -143,10 +126,11 @@ noremap <D-9> :tablast<cr>
 
 tnoremap <Esc> <C-\><C-n>
 
-nnoremap <C-p> :FZF<CR>
-nnoremap <C-l> :Buffers<CR>
-nnoremap <C-k> :Tags<CR>
 nnoremap <C-g> :Commits<CR>
+nnoremap <C-j> :AnyJump<CR>
+nnoremap <C-k> :Tags <C-R><C-W><CR>
+nnoremap <C-l> :Buffers<CR>
+nnoremap <C-p> :FZF<CR>
 nnoremap <C-s> :w<CR>
 
 nnoremap <buffer> k gk
@@ -155,7 +139,12 @@ nnoremap <buffer> j gj
 nnoremap * *``
 
 filetype plugin on
+filetype indent on
 set omnifunc=syntaxcomplete#Complete
+
+" Set to auto read when a file is changed from the outside
+set autoread
+au FocusGained,BufEnter * checktime
 
 syntax sync minlines=256
 
@@ -169,13 +158,15 @@ let NERDTreeMinimalUI=1
 let NERDTreeDirArrows=1
 let NERDTreeMapActivateNode="<space>"
 let NERDTreeMapOpenInTab="<ENTER>"
-let NERDTreeIgnore=['^\.DS_Store$', '^__pycache__$', '^\.cache$', '\.pyc$']
+let NERDTreeIgnore=['^\.DS_Store$', '^__pycache__$', '^\.cache$', '\.pyc$', '\.class$', '^out$', '^node_modules$']
 
 " set background=dark
 set termguicolors
 let ayucolor="dark"
 colorscheme ayu
 
+let g:molokai_original = 1
+let g:rehash256 = 1
 
 " if hidden is not set, TextEdit might fail.
 set hidden
@@ -193,11 +184,14 @@ set updatetime=300
 " don't give |ins-completion-menu| messages.
 set shortmess+=c
 
-" always show signcolumns
-" set signcolumn=yes
+" Turn backup off, since most stuff is in SVN, git etc. anyway...
+set nobackup
+set nowb
+set noswapfile
 
-" set nocursorline
-" set regexpengine=1
+" Configure backspace so it acts as it should act
+set backspace=eol,start,indent
+
 " set synmaxcol=166
 set lazyredraw
 set scrolljump=2
@@ -208,10 +202,12 @@ set mouse=a
 set nonumber
 set clipboard=unnamed
 set smartcase
+set smarttab
 set ignorecase
 set incsearch
 set hlsearch
 set showmatch
+set magic
 
 set tabstop=4
 set shiftwidth=4
@@ -233,29 +229,11 @@ let g:autopep8_disable_show_diff=1
 let g:autopep8_on_save = 1
 let g:autopep8_max_line_length=120
 
-" Use deoplete
-" let g:deoplete#enable_at_startup = 1
-" let g:deoplete#tag#cache_limit_size = 40000000
-
 " prettier
 let g:prettier#config#print_width = 120
 let g:prettier#config#tab_width = 4
 let g:prettier#exec_cmd_async = 1
 let g:prettier#config#trailing_comma = 'none'
-
-let g:javascript_plugin_flow = 1
-
-" let g:ale_sign_error = '>'
-" highlight ALEErrorSign guifg=#F90000 guibg=#000000
-
-" let g:ale_sign_warning = '.'
-" highlight ALEWarningSign guifg=#fabd2f guibg=#000000
-
-" let g:ale_lint_on_text_changed = 'never'
-" let g:ale_linters = {
-"    \   'javascript': ['eslint', 'flow'],
-"    \   'python': ['flake8'],
-" \}
 
 " Turn on case insensitive feature
 let g:EasyMotion_smartcase = 1
@@ -268,9 +246,15 @@ let g:ctrlsf_auto_focus = {
     \ "at": "start"
     \ }
 
-hi TabLine      guifg=Gray  guibg=#0F1419     gui=NONE
-hi TabLineFill  guifg=Gray  guibg=#0F1419     gui=NONE
-hi TabLineSel   guifg=White  guibg=#0F1419  gui=NONE
+let g:any_jump_disable_default_keybindings = 1
+
+hi TabLine      guifg=Gray  guibg=#000000     gui=NONE
+hi TabLineFill  guifg=Gray  guibg=#000000     gui=NONE
+hi TabLineSel   guifg=White  guibg=#000000  gui=NONE
+
+highlight Directory guifg=#96CBFE guibg=NONE
+
+highlight ColorColumn ctermbg=0 guibg=black
 
 highlight link javascriptReserved Keyword
 highlight NERDTreeDir guifg=#96CBFE guibg=NONE
@@ -279,3 +263,36 @@ highlight clear SignColumn
 highlight Search guibg=peru guifg=white
 highlight DiffAdd gui=NONE guifg=white guibg=green
 highlight DiffChange gui=NONE guifg=blue guibg=white
+
+" let g:indentLine_char_list = ['|', '¦', '┆']
+
+"Always show current position
+set ruler
+
+" Height of the command bar
+set cmdheight=1
+
+" A buffer becomes hidden when it is abandoned
+set hid
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Helper functions
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Returns true if paste mode is enabled
+function! HasPaste()
+    if &paste
+        return 'PASTE MODE  '
+    endif
+    return ''
+endfunction
+
+""""""""""""""""""""""""""""""
+" => Status line
+""""""""""""""""""""""""""""""
+" Always show the status line
+set laststatus=2
+
+" Format the status line
+set statusline=\ %{HasPaste()}%F%m%r%h\ %=Column:\ %c\ \ Line:\ %l
+
