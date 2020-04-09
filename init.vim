@@ -75,7 +75,7 @@ augroup vimrc_autocmd
 
     autocmd VimEnter * nmap <Leader>j <Plug>(coc-diagnostic-next)
     autocmd VimEnter * nmap <Leader>k <Plug>(coc-diagnostic-prev)
-    autocmd VimEnter * nmap <Leader>r :edit<CR>
+    autocmd VimEnter * nmap <Leader>r :noh<CR>:edit<CR>
 
     autocmd VimEnter * nmap <S-U> <C-R>
 
