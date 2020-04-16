@@ -3,7 +3,7 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
     " Navigating
-    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
     Plug 'easymotion/vim-easymotion'
     Plug 'dyng/ctrlsf.vim'
@@ -15,7 +15,6 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'mhinz/vim-mix-format'
 
     " JS
-    Plug 'othree/es.next.syntax.vim'
     Plug 'HerringtonDarkholme/yats.vim'
 
     " Python
@@ -34,6 +33,7 @@ call plug#begin('~/.config/nvim/plugged')
 call plug#end()
 
 let mapleader = ","
+
 augroup vimrc_autocmd
     autocmd!
 
@@ -79,7 +79,7 @@ augroup vimrc_autocmd
 
     autocmd VimEnter * nmap <S-U> <C-R>
 
-    autocmd VimEnter * nmap f <Plug>(easymotion-overwin-f2)
+    autocmd VimEnter * nmap f <Plug>(easymotion-sn)
 
     autocmd VimEnter * nmap <silent> <leader>d <Plug>DashSearch
 
