@@ -18,7 +18,7 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'HerringtonDarkholme/yats.vim'
 
     " Python
-    Plug 'tell-k/vim-autopep8'
+    Plug 'psf/black', { 'tag': '19.10b0' }
     Plug 'tweekmonster/django-plus.vim'
 
     " Syntax support
@@ -91,6 +91,8 @@ augroup vimrc_autocmd
 
     autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
     autocmd FileType json syntax match Comment +\/\/.\+$+
+
+    autocmd BufWritePre *.py execute ':Black'
 augroup END
 
 " Always use 0 register to paste, not shit from deleting
@@ -158,7 +160,7 @@ let NERDTreeMinimalUI=1
 let NERDTreeDirArrows=1
 let NERDTreeMapActivateNode="<space>"
 let NERDTreeMapOpenInTab="<ENTER>"
-let NERDTreeIgnore=['^\.DS_Store$', '^__pycache__$', '^\.cache$', '\.pyc$', '\.class$', '^out$', '^node_modules$']
+let NERDTreeIgnore=['^\.DS_Store$', '^__pycache__$', '^\.cache$', '\.pyc$', '\.class$', '^out$', '^node_modules$', '^build$', '^dist$', '^yarn.lock$']
 
 " set background=dark
 set termguicolors
@@ -223,11 +225,6 @@ set cindent
 set encoding=UTF-8
 
 let g:mix_format_on_save = 1
-
-" Auto pep8
-let g:autopep8_disable_show_diff=1
-let g:autopep8_on_save = 1
-let g:autopep8_max_line_length=120
 
 " prettier
 let g:prettier#config#print_width = 120
