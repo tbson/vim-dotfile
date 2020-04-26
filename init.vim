@@ -58,6 +58,9 @@ augroup vimrc_autocmd
     autocmd VimEnter * nmap <F5> :wa<CR>
     autocmd VimEnter * imap <F5> <Esc>:wa<CR>
 
+    autocmd VimEnter * nmap <F6> :tabonly<CR>
+    autocmd VimEnter * imap <F6> <Esc>:tabonly<CR>
+
     autocmd VimEnter * nmap <F8> :q!<CR>
     autocmd VimEnter * imap <F8> <Esc>:q!<CR>
 
@@ -197,7 +200,7 @@ set backspace=eol,start,indent
 " set synmaxcol=166
 set lazyredraw
 set scrolljump=2
-set colorcolumn=120
+set colorcolumn=88
 set diffopt+=vertical
 
 set mouse=a
@@ -227,7 +230,7 @@ set encoding=UTF-8
 let g:mix_format_on_save = 1
 
 " prettier
-let g:prettier#config#print_width = 120
+let g:prettier#config#print_width = 88
 let g:prettier#config#tab_width = 4
 let g:prettier#exec_cmd_async = 1
 let g:prettier#config#trailing_comma = 'none'
@@ -244,6 +247,9 @@ let g:ctrlsf_auto_focus = {
     \ }
 
 let g:any_jump_disable_default_keybindings = 1
+let g:any_jump_window_width_ratio = 1
+let g:any_jump_window_height_ratio = 0.4
+let g:any_jump_window_top_offset   = 0
 
 hi TabLine      guifg=Gray  guibg=#000000     gui=NONE
 hi TabLineFill  guifg=Gray  guibg=#000000     gui=NONE
