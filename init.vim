@@ -10,11 +10,12 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
     Plug 'brooth/far.vim'
     Plug 'mkitt/tabline.vim'
+    Plug 'pechorin/any-jump.vim'
 
     " Elixir
     Plug 'mhinz/vim-mix-format'
 
-    " JS
+    " TS
     Plug 'HerringtonDarkholme/yats.vim'
 
     " Python
@@ -23,10 +24,11 @@ call plug#begin('~/.config/nvim/plugged')
 
     " Syntax support
     Plug 'tbson/ayu-vim'
+    Plug 'challenger-deep-theme/vim', { 'as': 'challenger-deep' }
     Plug 'sheerun/vim-polyglot'
     Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
     Plug 'Yggdroot/indentLine'
-    Plug 'pechorin/any-jump.vim'
+    Plug 'aserebryakov/vim-todo-lists'
 
     " Git
     Plug 'tpope/vim-fugitive'
@@ -167,11 +169,9 @@ let NERDTreeIgnore=['^\.DS_Store$', '^__pycache__$', '^\.cache$', '\.pyc$', '\.c
 
 " set background=dark
 set termguicolors
-let ayucolor="dark"
-colorscheme ayu
-
-let g:molokai_original = 1
-let g:rehash256 = 1
+" let ayucolor="dark"
+" colorscheme ayu
+colorscheme challenger_deep
 
 " if hidden is not set, TextEdit might fail.
 set hidden
@@ -200,7 +200,7 @@ set backspace=eol,start,indent
 " set synmaxcol=166
 set lazyredraw
 set scrolljump=2
-set colorcolumn=88
+set colorcolumn=90
 set diffopt+=vertical
 
 set mouse=a
@@ -251,23 +251,21 @@ let g:any_jump_window_width_ratio = 1
 let g:any_jump_window_height_ratio = 0.4
 let g:any_jump_window_top_offset   = 0
 
-hi TabLine      guifg=Gray  guibg=#000000     gui=NONE
-hi TabLineFill  guifg=Gray  guibg=#000000     gui=NONE
-hi TabLineSel   guifg=White  guibg=#000000  gui=NONE
+" hi TabLine      guifg=Gray  guibg=#000000     gui=NONE
+" hi TabLineFill  guifg=Gray  guibg=#000000     gui=NONE
+" hi TabLineSel   guifg=White  guibg=#000000  gui=NONE
 
-highlight Directory guifg=#96CBFE guibg=NONE
+" highlight Directory guifg=#96CBFE guibg=NONE
 
-highlight ColorColumn ctermbg=0 guibg=black
+" highlight ColorColumn ctermbg=0 guibg=black
 
-highlight link javascriptReserved Keyword
-highlight NERDTreeDir guifg=#96CBFE guibg=NONE
-highlight NERDTreeFile guifg=#E0DAC3 guibg=NONE
-highlight clear SignColumn
+" highlight link javascriptReserved Keyword
+" highlight NERDTreeDir guifg=#96CBFE guibg=NONE
+" highlight NERDTreeFile guifg=#E0DAC3 guibg=NONE
+" highlight clear SignColumn
 highlight Search guibg=peru guifg=white
 highlight DiffAdd gui=NONE guifg=white guibg=green
 highlight DiffChange gui=NONE guifg=blue guibg=white
-
-" let g:indentLine_char_list = ['|', '¦', '┆']
 
 "Always show current position
 set ruler
